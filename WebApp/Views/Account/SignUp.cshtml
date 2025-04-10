@@ -1,55 +1,49 @@
-﻿
+﻿@model SignUpViewModel
+
+@{
+    Layout = "_Layout_Forms";
+    ViewData["Title"] = "Create Account";
+}
 <div class="center-screen">
     <div class="surface">
         <div class="form-group">
-
-            <form class="reg-form space-y-1" novalidate>
-
+            <form method="post" asp-controller="Account" asp-action="SignUp" class="reg-form space-y-1" novalidate>
                 <div class="form-heading">
                     <h1>Create Account</h1>
                 </div>
-
                 <div class="input-group">
-                    <label for="fullName" class="form-label">Full Name</label>
-                    <input type="text" placeholder="Your full name" id="fullName" name="fullName" class="form-input" required>
-                    <p class="invalid-input" style="display: none;">Full name is required</p>
+                    <label asp-for="FullName" class="form-label">Full Name</label>
+                    <input class="form-input" asp-for="FullName"  id="fullName">
+                    <span asp-validation-for="FullName"></span>
                 </div>
-
                 <div class="input-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" placeholder="Your email address" id="email" name="email" class="form-input" required>
-                    <p class="invalid-input" style="display: none;">You need to enter a valid email address</p>
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input class="form-input" asp-for="Email" id="email" >
+                    <span asp-validation-for="Email"></span>
                 </div>
-
                 <div class="input-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter your password" id="password" name="password" class="form-input" required>
-                    <p class="invalid-input" style="display: none;">You need to enter a valid password</p>
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input class="form-input" asp-for="Password" id="password">
+                    <span asp-validation-for="Password"></span>
                 </div>
-
                 <div class="input-group">
-                    <label for="password" class="form-label">Confirm Password</label>
-                    <input type="password" placeholder="Confirm your password" id="confirmPassword" name="confirmPassword" class="form-input" required>
-                    <p class="invalid-input" style="display: none;">You need to enter a valid Password</p>
+                    <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                    <input class="form-input" asp-for="ConfirmPassword" id="confirmPassword">
+                    <span asp-validation-for="ConfirmPassword"></span>
                 </div>
-
                 <div class="input-group">
                     <div class="custom-check">
-                        <input class="form-check-box" type="checkbox" id="terms">
-                        <label for="terms">I accept the <a href="#" class="h-links">Terms and Conditions</a></label>
+                        <input asp-for="Terms" class="form-check-box" id="terms">
+                        <label asp-for="Terms">I accept the <a href="#" class="h-links">Terms and Conditions</a></label>
                     </div>
                 </div>
-
                 <button type="submit" class="_btn-custom _btn-blue">Create Account</button>
-
             </form>
         </div>
-
         <footer class="form-footer">
             <div class="flex-end">
-                <p>Already have an account? <a href="#" class="h-links">Login</a></p>
+                <p>Already have an account? <a asp-controller="Account" asp-action="LogIn" class="h-links">Login</a></p>
             </div>
         </footer>
-
     </div>
 </div>
