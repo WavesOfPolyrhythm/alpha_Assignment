@@ -1,43 +1,11 @@
-﻿
-@{
+﻿@{
 }
 
 <header class="top">
-
     <div class="top-wrapper">
-        <div class="search">
-            <form method="get" asp-controller="" asp-action="" novalidate>
-                <div class="search-wrapper">
-                    <i class="fa-sharp fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="search" class="search-form-input" placeholder="Search anything" />
-                </div>
-            </form>
-        </div>
+        @await Html.PartialAsync("Partials/Top/Searchbar/_SearchbarPartial")
         <div class="settings-wrapper">
-            <div class="gear">
-                <i class="fa-duotone fa-solid fa-gear" data-settings="true"></i>
-            </div>
-
-            <div class="separator"></div>
-
-            <div class="avatar-img">
-                <img src="images/avatar-male1.svg" alt="User avatar">
-
-                <!-- Settings popup -->
-                <div class="settings-popup">
-                    <div class="user-img">
-                        <img src="images/avatar-male1.svg" alt="User Avatar">
-                        <span class="user-name">Tim Larsson</span>
-                    </div>
-                    <div class="logout-btn">
-                        <i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i>
-                        <button class="logout">Logout</button>
-                    </div>
-                </div>
-
-
-            </div>
+            @await Html.PartialAsync("Partials/Top/Settings/_SettingsPartial")
         </div>
     </div>
-
 </header>

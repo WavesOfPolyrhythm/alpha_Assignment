@@ -4,7 +4,6 @@
     const modalButtons = document.querySelectorAll('[data-modal="true"]') //i html "data-modal="true"
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
-            console.log('Klickade på:', button);
             const modalTarget = button.getAttribute('data-target')
             const modal = document.querySelector(modalTarget)
 
