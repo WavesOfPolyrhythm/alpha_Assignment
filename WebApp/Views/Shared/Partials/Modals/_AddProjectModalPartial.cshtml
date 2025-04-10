@@ -1,0 +1,75 @@
+﻿
+@{
+}
+
+<section>
+    <div id="projectModal" class="_modal">
+        <div class="_modal-content">
+
+            <div class="_modal-header">
+                <h3 id="modalTitle">Add Project</h3>
+                <button class="btn-close" data-close="true"></button>
+            </div>
+
+            <div class="_modal-img">
+                <img src="/images/dev-icon1.svg" alt="Project Icon" />
+            </div>
+
+            <form class="_form-modal space-y-1">
+
+                <!-- Project Name -->
+                <div class="input-group">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <input type="text" id="projectName" name="projectName" placeholder="Project Name" class="form-input" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="clientId" class="form-label">Client Name</label>
+                    <select id="clientId" name="clientId" class="form-input" required>
+                        <option value="">Choose client...</option>
+                        <option value="1">GitLab Inc.</option>
+                        <option value="2">Google</option>
+                        <option value="3">Slack Technologies</option>
+                    </select>
+                </div>
+
+                <!-- Description Text Area -->
+                <div class="input-group">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description" name="description" class="form-input" rows="2" placeholder="Type something"></textarea>
+                </div>
+
+
+
+                <!-- Start Date & End Date -->
+                <div class="input-group dates">
+                    <div>
+                        <label for="startDate" class="form-label">Start Date</label>
+                        <input type="date" id="startDate" name="startDate" class="form-input date-input" required>
+                    </div>
+                    <div>
+                        <label for="endDate" class="form-label">End Date</label>
+                        <input type="date" id="endDate" name="endDate" class="form-input date-input" required>
+                    </div>
+                </div>
+
+                <!-- Budget -->
+                <div class="input-group budget-group">
+                    <label for="budget" class="form-label">Budget</label>
+
+                    <div class="budget-wrapper">
+                        <i class="fa-sharp fa-solid fa-dollar-sign budget-icon"></i>
+                        <input type="text" class="form-input" id="budget" name="budget" placeholder="0" required>
+                    </div>
+                </div>
+
+                <div class="btn-modal">
+                    <button type="submit" id="modalActionBtn" class="_btn-custom _btn-blue">Create</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</section>

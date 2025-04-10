@@ -1,0 +1,58 @@
+﻿
+@{
+}
+
+<div class="center-screen">
+    <div class="surface">
+        <div class="form-group">
+
+            <form class="reg-form space-y-1" novalidate>
+
+                <div class="form-heading">
+                    <h1>Create Account</h1>
+                </div>
+
+                <div class="input-group">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" placeholder="Your full name" id="fullName" name="fullName" class="form-input" required>
+                    <p class="invalid-input" style="display: none;">Full name is required</p>
+                </div>
+
+                <div class="input-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" placeholder="Your email address" id="email" name="email" class="form-input" required>
+                    <p class="invalid-input" style="display: none;">You need to enter a valid email address</p>
+                </div>
+
+                <div class="input-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" placeholder="Enter your password" id="password" name="password" class="form-input" required>
+                    <p class="invalid-input" style="display: none;">You need to enter a valid password</p>
+                </div>
+
+                <div class="input-group">
+                    <label for="password" class="form-label">Confirm Password</label>
+                    <input type="password" placeholder="Confirm your password" id="confirmPassword" name="confirmPassword" class="form-input" required>
+                    <p class="invalid-input" style="display: none;">You need to enter a valid Password</p>
+                </div>
+
+                <div class="input-group">
+                    <div class="custom-check">
+                        <input class="form-check-box" type="checkbox" id="terms">
+                        <label for="terms">I accept the <a href="#" class="h-links">Terms and Conditions</a></label>
+                    </div>
+                </div>
+
+                <button type="submit" class="_btn-custom _btn-blue">Create Account</button>
+
+            </form>
+        </div>
+
+        <footer class="form-footer">
+            <div class="flex-end">
+                <p>Already have an account? <a href="#" class="h-links">Login</a></p>
+            </div>
+        </footer>
+
+    </div>
+</div>
