@@ -5,13 +5,15 @@ namespace WebApp.Controllers;
 public class AccountController : Controller
 {
 
-
+    [Route("account/signup")]
     public IActionResult SignUp()
     {
-        return View();
+        var model = new SignUpViewModel();
+        return View(model);
     }
 
     [HttpPost]
+    [Route("account/signup")]
     public IActionResult SignUp(SignUpViewModel model)
     {
         if (!ModelState.IsValid) 
@@ -19,11 +21,24 @@ public class AccountController : Controller
         return View();
     }
 
-    public IActionResult SignOut()
+    [Route("account/login")]
+    public IActionResult LogIn()
     {
         return View();
     }
-    public IActionResult LogIn()
+
+    [HttpPost]
+    [Route("account/login")]
+    public IActionResult LogIn(LogInViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        return View();
+    }
+
+
+    public IActionResult SignOut()
     {
         return View();
     }

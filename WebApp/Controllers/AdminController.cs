@@ -12,7 +12,6 @@ public class AdminController : Controller
         };
         return View(viewModel);
     }
-
     private IEnumerable<ProjectViewModel> SetProjects()
     {
         var projects = new List<ProjectViewModel>();
