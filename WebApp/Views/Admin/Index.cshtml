@@ -32,3 +32,22 @@
 
 @await Html.PartialAsync("Partials/Modals/_AddProjectModalPartial", Model.AddProjectFormData)
 @await Html.PartialAsync("Partials/Modals/_EditProjectModalPartial", Model.EditProjectFormData)
+
+
+@* Help from CHAT-GPT To keep modal open if Model State is not Valid *@
+@section Scripts {
+    @if (!ViewData.ModelState.IsValid && Model.AddProjectFormData != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const triggerBtn = document.querySelector('[data-target="#projectModal"]');
+                if (triggerBtn) {
+                    triggerBtn.click();
+                }
+            });
+        </script>
+    }
+}
+
+
+

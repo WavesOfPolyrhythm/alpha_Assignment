@@ -9,45 +9,46 @@
             <div class="_modal-img">
                 <img src="/images/dev-icon1.svg" alt="Project Icon" />
             </div>
-            <form class="_form-modal space-y-1">
-                <!-- Project Name -->
+            <form method="post" asp-controller="Admin" asp-action="Index" class="_form-modal space-y-1" novalidate>
                 <div class="input-group">
-                    <label for="projectName" class="form-label">Project Name</label>
-                    <input type="text" id="projectName" name="projectName" placeholder="Project Name" class="form-input" required>
+                    <label asp-for="ProjectName" class="form-label"></label>
+                    <input type="text" asp-for="ProjectName"  class="form-input">
+                    <span asp-validation-for="ProjectName"></span>
                 </div>
                 <div class="input-group">
-                    <label for="clientId" class="form-label">Client Name</label>
-                    <select id="clientId" name="clientId" class="form-input" required>
+                    <label asp-for="ClientId" class="form-label">Client Name</label>
+                    <select asp-for="ClientId" class="form-input">
                         <option value="">Choose client...</option>
                         <option value="1">GitLab Inc.</option>
                         <option value="2">Google</option>
                         <option value="3">Slack Technologies</option>
                     </select>
+                    <span asp-validation-for="ClientId"></span>
                 </div>
-                <!-- Description Text Area -->
                 <div class="input-group">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea id="description" name="description" class="form-input" rows="2" placeholder="Type something"></textarea>
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-input" rows="2" placeholder="Type something"></textarea>
+                    <span asp-validation-for="Description"></span>
                 </div>
-                <!-- Start Date & End Date -->
                 <div class="input-group dates">
-                    <div>
-                        <label for="startDate" class="form-label">Start Date</label>
-                        <input type="date" id="startDate" name="startDate" class="form-input date-input" required>
+                    <div class="date-field">
+                        <label asp-for="StartDate" class="form-label">Start Date</label>
+                        <input type="date" asp-for="StartDate" class="form-input date-input">
+                        <span asp-validation-for="StartDate"></span>
                     </div>
-                    <div>
-                        <label for="endDate" class="form-label">End Date</label>
-                        <input type="date" id="endDate" name="endDate" class="form-input date-input" required>
+                    <div class="date-field">
+                        <label asp-for="EndDate" class="form-label">End Date</label>
+                        <input type="date" asp-for="EndDate" class="form-input date-input">
+                        <span asp-validation-for="EndDate"></span>
                     </div>
                 </div>
-                <!-- Budget -->
                 <div class="input-group budget-group">
-                    <label for="budget" class="form-label">Budget</label>
-
+                    <label asp-for="Budget" class="form-label">Budget</label>
                     <div class="budget-wrapper">
                         <i class="fa-sharp fa-solid fa-dollar-sign budget-icon"></i>
-                        <input type="text" class="form-input" id="budget" name="budget" placeholder="0" required>
+                        <input type="number" asp-for="Budget" class="form-input" placeholder="0">
                     </div>
+                    <span asp-validation-for="Budget"></span>
                 </div>
                 <div class="btn-modal">
                     <button type="submit" id="modalActionBtn" class="_btn-custom _btn-blue">Create</button>

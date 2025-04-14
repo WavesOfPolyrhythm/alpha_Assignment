@@ -12,6 +12,25 @@ public class AdminController : Controller
         };
         return View(viewModel);
     }
+
+    [HttpPost]
+    public IActionResult Index(AddProjectViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            var viewModel = new ProjectsViewModel
+            {
+                Projects = SetProjects(),
+                AddProjectFormData = model,
+                EditProjectFormData = new EditProjectViewModel()
+            };
+            return View(viewModel);
+        }
+
+        return RedirectToAction("Index");
+    }
+
+
     private IEnumerable<ProjectViewModel> SetProjects()
     {
         var projects = new List<ProjectViewModel>();
