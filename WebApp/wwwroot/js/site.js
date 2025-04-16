@@ -1,31 +1,65 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
 
     // open modal
-    const modalButtons = document.querySelectorAll('[data-modal="true"]') //i html "data-modal="true"
+    //Some code made by CHAT GPT to solve the issue where validation remained visible when switching modals.
+    // by introducing "currentModal" and closing + clearing all other modals before opening the selected one.
+    const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
             const modalTarget = button.getAttribute('data-target')
-            const modal = document.querySelector(modalTarget)
+            const currentModal = document.querySelector(modalTarget)
 
-            if (modal)
-                modal.style.display = 'flex';
+            const allModals = document.querySelectorAll('._modal')
+            allModals.forEach(modal => {
+                if (modal !== currentModal) {
+                    modal.style.display = 'none'
+
+                    modal.querySelectorAll('form').forEach(form => {
+                        form.reset()
+
+                        const validationMessages = form.querySelectorAll('.field-validation-error')
+                        validationMessages.forEach(message => {
+                            message.textContent = ''
+                        })
+
+                        const errorInputs = form.querySelectorAll('.input-validation-error')
+                        errorInputs.forEach(input => {
+                            input.classList.remove('input-validation-error')
+                        })
+                    })
+                }
+            })
+
+            if (currentModal)
+                currentModal.style.display = 'flex';
         })
     })
 
     // close modal
-    const closeButtons = document.querySelectorAll('[data-close="true"]')//i html "data-close="true"
+    const closeButtons = document.querySelectorAll('[data-close="true"]')
     closeButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const modal = button.closest('._modal') //letar efter en knapp som är närmast klassen .modal
+            const modal = button.closest('._modal')
             if (modal) {
                 modal.style.display = 'none'
 
-                //clear formdata här senare
+                modal.querySelectorAll('form').forEach(form => {
+                    form.reset()
+
+                    const validationMessages = form.querySelectorAll('.field-validation-error')
+                    validationMessages.forEach(message => {
+                        message.textContent = ''
+                    })
+
+                    const errorInputs = form.querySelectorAll('.input-validation-error')
+                    errorInputs.forEach(input => {
+                        input.classList.remove('input-validation-error')
+                    })
+                    
+                })
             }
         })
     })
-
-
 
     // open and close dots-popup
     const dotsIcons = document.querySelectorAll('[data-popup="true"]');

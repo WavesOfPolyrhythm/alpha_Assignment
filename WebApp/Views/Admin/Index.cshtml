@@ -36,11 +36,23 @@
 
 @* Help from CHAT-GPT To keep modal open if Model State is not Valid *@
 @section Scripts {
-    @if (!ViewData.ModelState.IsValid && Model.AddProjectFormData != null)
+    @if (ViewData["ShowAddModal"] as bool? == true)
     {
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const triggerBtn = document.querySelector('[data-target="#projectModal"]');
+                if (triggerBtn) {
+                    triggerBtn.click();
+                }
+            });
+        </script>
+    }
+
+    @if (ViewData["ShowEditModal"] as bool? == true)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const triggerBtn = document.querySelector('[data-target="#editProjectModal"]');
                 if (triggerBtn) {
                     triggerBtn.click();
                 }
