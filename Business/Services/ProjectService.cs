@@ -1,5 +1,5 @@
 ﻿using Azure;
-using Business.Dtos;
+using Domain.Dtos;
 using Business.Models;
 using Data.Entities;
 using Data.Repositories;
