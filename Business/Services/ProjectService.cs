@@ -1,6 +1,9 @@
-﻿namespace Business.Services;
+﻿using Data.Repositories;
 
-public class ProjectService
+namespace Business.Services;
+
+public class ProjectService(IProjectRepository projectRepository)
 {
+    private readonly IProjectRepository _projectRepository = projectRepository;
 
 }

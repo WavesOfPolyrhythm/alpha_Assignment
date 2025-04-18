@@ -9,6 +9,7 @@ namespace Business.Services;
 public interface IUserService
 {
     Task<UserResult> GetUsersAsync();
+    Task<UserResult> AddUserToRole(string userId, string roleName);
 }
 
 public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager) : IUserService
