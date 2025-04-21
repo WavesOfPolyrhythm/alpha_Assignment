@@ -10,6 +10,13 @@
                 <div class="form-heading">
                     <h1>Create Account</h1>
                 </div>
+
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
                 <div class="input-group">
                     <label asp-for="FullName" class="form-label"></label>
                     <input class="form-input" asp-for="FullName">
@@ -35,6 +42,7 @@
                         <input asp-for="Terms" class="form-check-box">
                         <label asp-for="Terms">I accept the <a href="#" class="h-links">Terms and Conditions</a></label>
                     </div>
+                    <span asp-validation-for="Terms"></span>
                 </div>
                 <button type="submit" class="_btn-custom _btn-blue">Create Account</button>
             </form>
