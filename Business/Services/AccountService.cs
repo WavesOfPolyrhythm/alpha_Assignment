@@ -5,7 +5,14 @@ using Business.Models;
 
 namespace Business.Services;
 
-public class AccountService(IUserService userService, SignInManager<UserEntity> signInManager)
+public interface IAccountService
+{
+    Task<AccountResult> SignInAsync(LogInFormData formData);
+    Task<AccountResult> SignOutasync();
+    Task<AccountResult> SignUpAsync(SignUpFormData formData);
+}
+
+public class AccountService(IUserService userService, SignInManager<UserEntity> signInManager) : IAccountService
 {
     private readonly IUserService _userService = userService;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
