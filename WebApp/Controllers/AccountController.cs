@@ -1,13 +1,16 @@
 ﻿using Business.Services;
+using Data.Entities;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 namespace WebApp.Controllers;
 
-public class AccountController(IAccountService accountService) : Controller
+public class AccountController(IAccountService accountService, SignInManager<UserEntity> signInManager) : Controller
 {
 
     private readonly IAccountService _accountService = accountService;
+    private readonly SignInManager<UserEntity> _signInManager = signInManager;
 
     [Route("account/signup")]
     public IActionResult SignUp()
@@ -44,17 +47,33 @@ public class AccountController(IAccountService accountService) : Controller
 
     [HttpPost]
     [Route("account/login")]
-    public IActionResult LogIn(LogInViewModel model)
+    public async Task<IActionResult> LogIn(LogInViewModel model)
     {
-        if (!ModelState.IsValid)
-            return View(model);
+        ViewBag.ErrorMessage = null;
 
-        return View();
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var result = await _signInManager.PasswordSignInAsync(
+            model.Email,
+            model.Password,
+            model.RememberMe,
+            lockoutOnFailure: false
+        );
+
+        if (result.Succeeded)
+            return RedirectToAction("Index", "Admin");
+
+        ViewBag.ErrorMessage = "Invalid email or password.";
+        return View(model);
     }
 
 
-    public IActionResult SignOut()
+    public new async Task<IActionResult> SignOut()
     {
-        return View();
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("LogIn", "Account");
     }
 }

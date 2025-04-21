@@ -335,13 +335,13 @@ input[type="search"]::-webkit-search-cancel-button {
         border-radius: var(--border-radius);
     }
 
-.settings-popup .logout-btn .logout {
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    font-weight: var(--font-regular);
-    cursor: pointer;
-}
+        .settings-popup .logout-btn .logout {
+            font-size: 1.1rem;
+            font-weight: var(--font-regular);
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--btn-gray-text-color);
+        }
 
 /* PROJECT MAIN PART*/
 

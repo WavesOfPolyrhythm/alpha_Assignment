@@ -15,6 +15,5 @@ public class LogInViewModel
     [Display(Name = "Password", Prompt = "Enter password")]
     public string Password { get; set; } = null!;
 
-    [Range(typeof(bool), "true", "true")]
     public bool RememberMe { get; set; }
 }
