@@ -1,17 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.Services;
+using Domain.Dtos;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
 namespace WebApp.Controllers;
 
-public class AdminController : Controller
+public class AdminController(IProjectService projectService) : Controller
 {
+    private readonly IProjectService _projectService = projectService;
+
     [HttpGet]
     [Route("admin/projects")]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var viewModel = new ProjectsViewModel()
         {
             Projects = SetProjects(),
+
             AddProjectFormData = new AddProjectViewModel
             {
                 Clients = SetClients(),
@@ -23,32 +28,36 @@ public class AdminController : Controller
                 Statuses = SetStatus()
             }
         };
+
         return View(viewModel);
     }
 
     [HttpPost]
     [Route("admin/add")]
-    public IActionResult AddProject(AddProjectViewModel model)
+    public async Task<IActionResult> AddProject(AddProjectViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            model.Clients = SetClients();
-            var viewModel = new ProjectsViewModel()
-            {
-                Projects = SetProjects(),
-                AddProjectFormData = model,
-                EditProjectFormData = new EditProjectViewModel
-                {
-                    Clients = SetClients(),
-                    Statuses = SetStatus()
-                }
-            };
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToList()
+                );
 
-            ViewData["ShowAddModal"] = true;
-            return View("Index", viewModel);
+            return BadRequest(new { success = false, errors });
         }
 
-        return RedirectToAction("Index");
+        var formData = model.MapTo<AddProjectFormData>();
+        var result = await _projectService.CreateProjectAsync(formData);
+        if (result.Succeeded)
+        {
+            return Ok(new { success = true });
+        }
+        else
+        {
+            return Problem("Unable to submit data");
+        }
     }
 
     [HttpPost]

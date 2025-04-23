@@ -5,6 +5,8 @@ namespace WebApp.Models;
 
 public class AddProjectViewModel
 {
+    public string? Id { get; set; }
+
     [Required(ErrorMessage = "You must enter a project name")]
     [Display(Name = "Project Name", Prompt = "Project name")]
     public string ProjectName { get; set; } = null!;
