@@ -24,15 +24,26 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
 
         if (formData == null)
             return new ProjectResult { Succeeded = false, StatusCode = 400, Error = "Not all required fields are supplied." };
-        var projectEntity = formData.MapTo<ProjectEntity>();
-        var statusResult = await _statusService.GetStatusByIdAsync("1");
-        var status = statusResult.Result;
 
-        projectEntity.StatusId = status!.Id;
+        var project = new ProjectEntity
+        {
+            ProjectName = formData.ProjectName,
+            Description = formData.Description,
+            StartDate = formData.StartDate ?? DateTime.Now,
+            EndDate = formData.EndDate ?? DateTime.Now,
+            Budget = formData.Budget,
+            ClientId = formData.ClientId,
+            UserId = formData.UserId,
+            StatusId = "1",
+        };
 
+        //var projectEntity = formData.MapTo<ProjectEntity>();
+        //var statusResult = await _statusService.GetStatusByIdAsync("1");
+        //var status = statusResult.Result;
+        //projectEntity.StatusId = status!.Id;
+        //projectEntity.Id = Guid.NewGuid().ToString();
 
-
-        var result = await _projectRepository.AddAsync(projectEntity);
+        var result = await _projectRepository.AddAsync(project);
 
         return result.Succeeded
             ? new ProjectResult { Succeeded = true, StatusCode = 201 }

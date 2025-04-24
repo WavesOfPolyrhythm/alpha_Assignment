@@ -36,7 +36,7 @@
     })
 
     //Handle submit form
-    const forms = document.querySelectorAll('form')
+    const forms = document.querySelectorAll('._form-modal')
     forms.forEach(form => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault()

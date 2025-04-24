@@ -1,31 +1,39 @@
 ﻿using Business.Services;
 using Domain.Dtos;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 using WebApp.Models;
 namespace WebApp.Controllers;
 
-public class AdminController(IProjectService projectService) : Controller
+public class AdminController(IProjectService projectService, IClientService clientService, IStatusService statusService) : Controller
 {
     private readonly IProjectService _projectService = projectService;
+    private readonly IClientService _clientService = clientService;
+    private readonly IStatusService _statusService = statusService;
+
 
     [HttpGet]
     [Route("admin/projects")]
     public async Task<IActionResult> Index()
     {
+        var clients = await SetClients();
+        var statuses = await SetStatus();
+
         var viewModel = new ProjectsViewModel()
         {
             Projects = SetProjects(),
 
             AddProjectFormData = new AddProjectViewModel
             {
-                Clients = SetClients(),
+                Clients = clients,
             },
 
             EditProjectFormData = new EditProjectViewModel
             {
-                Clients = SetClients(),
-                Statuses = SetStatus()
+                Clients = clients,
+                Statuses = statuses
             }
         };
 
@@ -49,6 +57,7 @@ public class AdminController(IProjectService projectService) : Controller
         }
 
         var formData = model.MapTo<AddProjectFormData>();
+        formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier); //Code-snippet by CHAT-GPT
         var result = await _projectService.CreateProjectAsync(formData);
         if (result.Succeeded)
         {
@@ -62,23 +71,23 @@ public class AdminController(IProjectService projectService) : Controller
 
     [HttpPost]
     [Route("admin/edit")]
-    public IActionResult EditProject(EditProjectViewModel model)
+    public async  Task<IActionResult> EditProject(EditProjectViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            model.Clients = SetClients();
-            model.Statuses = SetStatus();
+            model.Clients = await SetClients();
+            model.Statuses = await SetStatus();
+
             var viewModel = new ProjectsViewModel()
             {
                 Projects = SetProjects(),
                 AddProjectFormData = new AddProjectViewModel
                 {
-                    Clients = SetClients(),
+                    Clients = await SetClients(),
                 },
+
                 EditProjectFormData = model
             };
-
-            viewModel.EditProjectFormData.Statuses = SetStatus();
 
             ViewData["ShowEditModal"] = true;
             return View("Index", viewModel);
@@ -105,25 +114,36 @@ public class AdminController(IProjectService projectService) : Controller
         return projects;
     }
 
-    private IEnumerable<SelectListItem> SetClients()
+    private async Task<IEnumerable<SelectListItem>> SetClients()
     {
-        var clients = new List<SelectListItem>
+        var result = await _clientService.GetClientsAsync();
+        var list = result.Result;
+
+        if (list == null)
+            return [];
+
+       var clients = list.Select(c => new SelectListItem
         {
-            new SelectListItem { Value = "1", Text = "EPN Sverige AB"},
-            new SelectListItem { Value = "2", Text = "Etab Data"},
-            new SelectListItem { Value = "3", Text = "DesignNow"},
-        };
+            Value = c.Id,
+            Text = c.ClientName
+        });
 
         return clients;
     }
 
-    private IEnumerable<SelectListItem> SetStatus()
+    private async Task<IEnumerable<SelectListItem>> SetStatus()
     {
-        var statuses = new List<SelectListItem>
+        var result = await _statusService.GetStatusesAsync();
+        var list = result.Result;
+
+        if (list == null)
+            return [];
+
+        var statuses = list.Select(s => new SelectListItem
         {
-            new SelectListItem { Value = "1", Text = "STARTED", Selected = true },
-            new SelectListItem { Value = "2", Text = "COMPLETED" },
-        };
+            Value = s.Id,
+            Text = s.StatusName
+        });
 
         return statuses;
     }
