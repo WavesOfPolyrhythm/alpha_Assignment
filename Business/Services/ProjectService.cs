@@ -37,12 +37,6 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
             StatusId = "1",
         };
 
-        //var projectEntity = formData.MapTo<ProjectEntity>();
-        //var statusResult = await _statusService.GetStatusByIdAsync("1");
-        //var status = statusResult.Result;
-        //projectEntity.StatusId = status!.Id;
-        //projectEntity.Id = Guid.NewGuid().ToString();
-
         var result = await _projectRepository.AddAsync(project);
 
         return result.Succeeded

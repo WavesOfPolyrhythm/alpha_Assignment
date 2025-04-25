@@ -23,7 +23,7 @@ public class AdminController(IProjectService projectService, IClientService clie
 
         var viewModel = new ProjectsViewModel()
         {
-            Projects = SetProjects(),
+            Projects = await SetProjects(),
 
             AddProjectFormData = new AddProjectViewModel
             {
@@ -57,7 +57,7 @@ public class AdminController(IProjectService projectService, IClientService clie
         }
 
         var formData = model.MapTo<AddProjectFormData>();
-        formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier); //Code-snippet by CHAT-GPT
+        formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!; //Code-snippet by CHAT-GPT
         var result = await _projectService.CreateProjectAsync(formData);
         if (result.Succeeded)
         {
@@ -80,7 +80,7 @@ public class AdminController(IProjectService projectService, IClientService clie
 
             var viewModel = new ProjectsViewModel()
             {
-                Projects = SetProjects(),
+                Projects = await SetProjects(),
                 AddProjectFormData = new AddProjectViewModel
                 {
                     Clients = await SetClients(),
@@ -97,21 +97,22 @@ public class AdminController(IProjectService projectService, IClientService clie
     }
 
 
-    private IEnumerable<ProjectViewModel> SetProjects()
+    private async Task<IEnumerable<ProjectViewModel>> SetProjects()
     {
-        var projects = new List<ProjectViewModel>();
-
-        projects.Add(new ProjectViewModel
+        var result = await _projectService.GetProjectsAsync();
+        if (result.Succeeded && result.Result != null)
         {
-            Id = Guid.NewGuid().ToString(),
-            ProjectName = "New Website",
-            Company = "ABC Data",
-            Description = "Build a new website for ABC Data",
-            ClientName = "EPN Sverige AB",
-            Status = "STARTED"
-        });
+            return result.Result.Select(p => new ProjectViewModel
+            {
+                Id = p.Id,
+                ProjectName = p.ProjectName,
+                Description = p.Description,
+                Company = p.Client.ClientName,
+                Status = p.Status.StatusName
+            });
+        }
 
-        return projects;
+        return [];
     }
 
     private async Task<IEnumerable<SelectListItem>> SetClients()
