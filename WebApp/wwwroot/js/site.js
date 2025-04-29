@@ -1,8 +1,9 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
 
+    //Some code made by CHAT GPT in open modal, to solve the issue where validation remained visible when switching modals.
+    // Introducing "currentModal" and closing + clearing all other modals before opening the selected one.
+
     // open modal
-    //Some code made by CHAT GPT to solve the issue where validation remained visible when switching modals.
-    // by introducing "currentModal" and closing + clearing all other modals before opening the selected one.
     const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -31,10 +32,16 @@
                 }
             })
 
+            //Made by ChatGPT
+            // Check if the modal exists
+            // Then find the hidden input field named "Id" inside the modal.
+            // If both the input and the button's data-id are found, set the input value to the data-id.
+            // This makes sure the correct project ID is included when the form is submitted
+            // Show the modal with "flex"
             if (currentModal) {
                 const idInput = currentModal.querySelector('input[name="Id"]');
                 if (idInput && editId) {
-                    idInput.value = editId; // <--- Sätter ID i inputfältet!
+                    idInput.value = editId;
                 }
 
                 if (currentModal)

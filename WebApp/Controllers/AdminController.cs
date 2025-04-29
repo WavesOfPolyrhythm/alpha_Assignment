@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using WebApp.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace WebApp.Controllers;
 
 [Authorize]
@@ -110,6 +111,26 @@ public class AdminController(IProjectService projectService, IClientService clie
         {
             return Problem("Unable to submit data");
         }
+    }
+
+    [HttpGet]
+    [Route("admin/delete")]
+    public async Task<IActionResult> DeleteProject(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return BadRequest(new { success = false, error = "Invalid project Id." });
+
+        var result = await _projectService.DeleteProjectAsync(id);
+
+        if (result.Succeeded)
+        {
+            return RedirectToAction("Index", "Admin");
+        }
+        else
+        {
+            return Problem("Unable to delete project");
+        }
+
     }
 
     private async Task<IEnumerable<ProjectViewModel>> SetProjects()

@@ -4,6 +4,7 @@ using Business.Models;
 using Data.Entities;
 using Data.Repositories;
 using Domain.Models;
+using Microsoft.SqlServer.Server;
 
 namespace Business.Services;
 
@@ -13,6 +14,7 @@ public interface IProjectService
     Task<ProjectResult<Project>> GetProjectAsync(string Id);
     Task<ProjectResult<IEnumerable<Project>>> GetProjectsAsync();
     Task<ProjectResult> UpdateProjectAsync(EditProjectFormData formData);
+    Task<ProjectResult> DeleteProjectAsync(string id);
 }
 
 public class ProjectService(IProjectRepository projectRepository, IStatusService statusService) : IProjectService
@@ -98,6 +100,20 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
         existingEntity.StatusId = formData.StatusId;
 
         var result = await _projectRepository.UpdateAsync(existingEntity);
+
+        return result.Succeeded
+            ? new ProjectResult { Succeeded = true, StatusCode = 200 }
+            : new ProjectResult { Succeeded = false, StatusCode = result.StatusCode, Error = result.Error };
+    }
+
+    public async Task<ProjectResult> DeleteProjectAsync(string id)
+    {
+        var existingEntity = await _projectRepository.GetEntityAsync(p => p.Id == id);
+
+        if (!existingEntity.Succeeded || existingEntity.Result == null)
+            return new ProjectResult { Succeeded = false, StatusCode = 404, Error = "Project not found." };
+
+        var result = await _projectRepository.DeleteAsync(existingEntity.Result);
 
         return result.Succeeded
             ? new ProjectResult { Succeeded = true, StatusCode = 200 }

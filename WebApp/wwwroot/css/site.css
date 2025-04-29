@@ -584,6 +584,7 @@ cursor: pointer;
 
 .dots-popup .dot-btn .delete {
 color: var(--card-delete-button);
+text-decoration: none;
 }
 
 .dots-popup .dot-btn .bi-trash {

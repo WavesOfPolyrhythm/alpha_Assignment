@@ -24,7 +24,8 @@
             </div>
             <div class="dot-btn">
                 <i class="bi bi-trash"></i>
-                <button class="delete">Delete Project</button>
+                <a class="delete" asp-controller="Admin" asp-action="DeleteProject"
+                   asp-route-id="@Model.Id" onclick="return confirm('Are you sure?')">Delete</a>
             </div>
         </div>
         <p class="card-text">@Model.Description</p>
