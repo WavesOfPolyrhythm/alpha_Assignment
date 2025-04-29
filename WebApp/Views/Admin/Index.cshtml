@@ -14,9 +14,9 @@
     </div>
     <div class="project-table">
         <div class="tabs">
-            <a href="#" class="tab-link">ALL [ 9 ]</a>
-            <a href="#" class="tab-link">STARTED [ 5 ]</a>
-            <a href="#" class="tab-link">COMPLETED [ 4 ]</a>
+            <a href="#" class="tab-link" data-filter="all">ALL [ @Model.AllCount ]</a>
+            <a href="#" class="tab-link" data-filter="started">STARTED [ @Model.StartedCount ]</a>
+            <a href="#" class="tab-link" data-filter="completed">COMPLETED [ @Model.CompletedCount ]</a>
         </div>
         <div class="card-container">
             @if(Model.Projects != null && Model.Projects.Any())

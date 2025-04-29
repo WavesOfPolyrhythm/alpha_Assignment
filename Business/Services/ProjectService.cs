@@ -12,6 +12,7 @@ public interface IProjectService
     Task<ProjectResult> CreateProjectAsync(AddProjectFormData formData);
     Task<ProjectResult<Project>> GetProjectAsync(string Id);
     Task<ProjectResult<IEnumerable<Project>>> GetProjectsAsync();
+    Task<ProjectResult> UpdateProjectAsync(EditProjectFormData formData);
 }
 
 public class ProjectService(IProjectRepository projectRepository, IStatusService statusService) : IProjectService
@@ -70,4 +71,37 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
             ? new ProjectResult<Project> { Succeeded = true, StatusCode = 200, Result = response.Result }
             : new ProjectResult<Project> { Succeeded = false, StatusCode = 404, Error = $"Project '{Id}' was not found." };
     }
+
+
+    //Some code made by Chat GPT for UpdateProjectAsync
+    // Updates an existing project in the database by first fetching the current entity,
+    // applying changes, and then saving it back to the database
+
+    public async Task<ProjectResult> UpdateProjectAsync(EditProjectFormData formData)
+    {
+        if (formData == null)
+            return new ProjectResult { Succeeded = false, StatusCode = 400, Error = "Invalid form data." };
+
+        var existingEntityResult = await _projectRepository.GetEntityAsync(p => p.Id == formData.Id);
+        if (!existingEntityResult.Succeeded || existingEntityResult.Result == null)
+            return new ProjectResult { Succeeded = false, StatusCode = 404, Error = "Project not found." };
+
+        var existingEntity = existingEntityResult.Result;
+
+        existingEntity.ProjectName = string.IsNullOrWhiteSpace(formData.ProjectName) ? existingEntity.ProjectName : formData.ProjectName;
+        existingEntity.Description = string.IsNullOrWhiteSpace(formData.Description) ? existingEntity.Description : formData.Description;
+        existingEntity.StartDate = formData.StartDate ?? existingEntity.StartDate;
+        existingEntity.EndDate = formData.EndDate ?? existingEntity.EndDate;
+        existingEntity.Budget = formData.Budget ?? existingEntity.Budget;
+        existingEntity.ClientId = formData.ClientId;
+        existingEntity.UserId = formData.UserId;
+        existingEntity.StatusId = formData.StatusId;
+
+        var result = await _projectRepository.UpdateAsync(existingEntity);
+
+        return result.Succeeded
+            ? new ProjectResult { Succeeded = true, StatusCode = 200 }
+            : new ProjectResult { Succeeded = false, StatusCode = result.StatusCode, Error = result.Error };
+    }
+
 }

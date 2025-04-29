@@ -8,6 +8,7 @@
         button.addEventListener('click', () => {
             const modalTarget = button.getAttribute('data-target')
             const currentModal = document.querySelector(modalTarget)
+            const editId = button.getAttribute('data-id');
 
             const allModals = document.querySelectorAll('._modal')
             allModals.forEach(modal => {
@@ -30,8 +31,15 @@
                 }
             })
 
-            if (currentModal)
-                currentModal.style.display = 'flex';
+            if (currentModal) {
+                const idInput = currentModal.querySelector('input[name="Id"]');
+                if (idInput && editId) {
+                    idInput.value = editId; // <--- Sätter ID i inputfältet!
+                }
+
+                if (currentModal)
+                    currentModal.style.display = 'flex';
+            }
         })
     })
 
@@ -116,6 +124,7 @@
         })
     })
 
+
     // open and close dots-popup
     const dotsIcons = document.querySelectorAll('[data-popup="true"]');
     dotsIcons.forEach(icon => {
@@ -134,6 +143,42 @@
             })
         })
     })
+
+    //Sort Status
+    //Some code made by CHAT GPT
+    // This code handles the tab filtering for project cards.
+    // When a user clicks a tab (All, Started, Completed), it highlights the active tab
+    // and shows only the project cards that match the selected status.
+    // If "All" is selected, all project cards are displayed.
+
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        tabLinks.forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                tabLinks.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const filter = tab.getAttribute('data-filter').toLowerCase();
+
+                projectCards.forEach(card => {
+                    const status = card.getAttribute('data-status').toLowerCase();
+
+                    if (filter === 'all') {
+                        card.style.display = 'flex';
+                    }
+                    else if (filter === status) {
+                        card.style.display = 'flex';
+                    }
+                    else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
 
     //open and close settings
     const gearIcon = document.querySelectorAll('[data-settings="true"]');

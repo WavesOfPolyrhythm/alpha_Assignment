@@ -10,6 +10,7 @@
                 <img src="/images/dev-icon1.svg" alt="Project Icon" />
             </div>
             <form method="post" asp-controller="Admin" asp-action="EditProject" class="_form-modal space-y-1" novalidate>
+                <input type="hidden" asp-for="Id" />
                 <div class="input-group">
                     <label asp-for="ProjectName" class="form-label"></label>
                     <input type="text" asp-for="ProjectName" class="form-input">
@@ -55,9 +56,9 @@
                     <label asp-for="StatusId" class="form-label">Project Status</label>
                     <select asp-for="StatusId" class="form-input">
                         <option value="">Choose status...</option>
-                        @foreach (var client in Model.Statuses)
+                        @foreach (var status in Model.Statuses)
                         {
-                            <option value="@client.Value">@client.Text</option>
+                            <option value="@status.Value">@status.Text</option>
                         }
                     </select>
                     <span asp-validation-for="StatusId"></span>

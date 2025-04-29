@@ -1,32 +1,32 @@
 ﻿@model ProjectViewModel
 <div class="cards">
-<div class="project-card">
-    <div class="card-flex">
-        <div class="card-left">
-            <div class="card-icon">
-                <img src="~/images/dev-icon1.svg" alt="Project Icon" />
+    <div class="project-card" data-status="@Model.Status">
+        <div class="card-flex">
+            <div class="card-left">
+                <div class="card-icon">
+                    <img src="~/images/dev-icon1.svg" alt="Project Icon" />
+                </div>
+                <div class="card-headers">
+                    <h5>@Model.ProjectName</h5>
+                    <h6>@Model.Company</h6>
+                </div>
             </div>
-            <div class="card-headers">
-                <h5>@Model.ProjectName</h5>
-                <h6>@Model.Company</h6>
+            <div class="dots-icon">
+                <i class="bi bi-three-dots" data-popup="true"></i>
             </div>
         </div>
-        <div class="dots-icon">
-            <i class="bi bi-three-dots" data-popup="true"></i>
-        </div>
-    </div>
 
-    <!-- Edit and Delete Popup -->
-    <div class="dots-popup">
-        <div class="dot-btn">
-            <i class="bi bi-pencil"></i>
-            <button class="edit" data-modal="true" data-target="#editProjectModal">Edit</button>
+        <!-- Edit and Delete Popup -->
+        <div class="dots-popup">
+            <div class="dot-btn">
+                <i class="bi bi-pencil"></i>
+                <button class="edit" data-modal="true" data-target="#editProjectModal" data-id="@Model.Id">Edit</button>
+            </div>
+            <div class="dot-btn">
+                <i class="bi bi-trash"></i>
+                <button class="delete">Delete Project</button>
+            </div>
         </div>
-        <div class="dot-btn">
-            <i class="bi bi-trash"></i>
-            <button class="delete">Delete Project</button>
-        </div>
+        <p class="card-text">@Model.Description</p>
     </div>
-    <p class="card-text">@Model.Description</p>
-</div>
 </div>

@@ -1,18 +1,23 @@
 ﻿using Business.Services;
 using Domain.Dtos;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using WebApp.Models;
 namespace WebApp.Controllers;
 
+[Authorize]
 public class AdminController(IProjectService projectService, IClientService clientService, IStatusService statusService) : Controller
 {
     private readonly IProjectService _projectService = projectService;
     private readonly IClientService _clientService = clientService;
     private readonly IStatusService _statusService = statusService;
 
+    // Projects Count was made with help from ChatGPT.
+    // It calculates the total number of projects, as well as the number of started and completed projects.
+    // This makes it possible to show the correct count next to the filter tabs on the project page.
 
     [HttpGet]
     [Route("admin/projects")]
@@ -20,10 +25,14 @@ public class AdminController(IProjectService projectService, IClientService clie
     {
         var clients = await SetClients();
         var statuses = await SetStatus();
+        var projects = await SetProjects();
 
         var viewModel = new ProjectsViewModel()
         {
-            Projects = await SetProjects(),
+            Projects = projects,
+            AllCount = projects.Count(),
+            StartedCount = projects.Count(p => p.Status == "STARTED"),
+            CompletedCount = projects.Count(p => p.Status == "COMPLETED"),
 
             AddProjectFormData = new AddProjectViewModel
             {
@@ -39,6 +48,10 @@ public class AdminController(IProjectService projectService, IClientService clie
 
         return View(viewModel);
     }
+
+    //Code-snippet by CHAT-GPT, "FindFirstValue"
+    // This line sets the UserId in formData to the ID of the currently logged-in user.
+    // It uses the NameIdentifier claim to get the user's unique ID from the login session.
 
     [HttpPost]
     [Route("admin/add")]
@@ -57,7 +70,7 @@ public class AdminController(IProjectService projectService, IClientService clie
         }
 
         var formData = model.MapTo<AddProjectFormData>();
-        formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!; //Code-snippet by CHAT-GPT
+        formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var result = await _projectService.CreateProjectAsync(formData);
         if (result.Succeeded)
         {
@@ -69,33 +82,35 @@ public class AdminController(IProjectService projectService, IClientService clie
         }
     }
 
+
     [HttpPost]
     [Route("admin/edit")]
-    public async  Task<IActionResult> EditProject(EditProjectViewModel model)
+    public async Task<IActionResult> EditProject(EditProjectViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            model.Clients = await SetClients();
-            model.Statuses = await SetStatus();
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToList()
+                );
 
-            var viewModel = new ProjectsViewModel()
-            {
-                Projects = await SetProjects(),
-                AddProjectFormData = new AddProjectViewModel
-                {
-                    Clients = await SetClients(),
-                },
-
-                EditProjectFormData = model
-            };
-
-            ViewData["ShowEditModal"] = true;
-            return View("Index", viewModel);
+            return BadRequest(new { success = false, errors });
         }
 
-        return RedirectToAction("Index");
+        var formData = model.MapTo<EditProjectFormData>();
+        formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var result = await _projectService.UpdateProjectAsync(formData);
+        if (result.Succeeded)
+        {
+            return Ok(new { success = true });
+        }
+        else
+        {
+            return Problem("Unable to submit data");
+        }
     }
-
 
     private async Task<IEnumerable<ProjectViewModel>> SetProjects()
     {

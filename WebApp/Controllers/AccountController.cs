@@ -12,6 +12,12 @@ public class AccountController(IAccountService accountService, SignInManager<Use
     private readonly IAccountService _accountService = accountService;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
 
+    [HttpGet("/")]
+    public IActionResult Start()
+    {
+        return RedirectToAction("LogIn", "Account");
+    }
+
     [Route("account/signup")]
     public IActionResult SignUp()
     {
