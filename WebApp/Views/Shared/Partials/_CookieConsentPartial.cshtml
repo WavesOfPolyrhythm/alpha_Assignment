@@ -1,0 +1,70 @@
+﻿ <!-- Code is a combination of Hans Cookie consent video and Chat GPT -->
+<div id="cookieModal">
+    <div class="cookie-card">
+        <div class="content">
+            <h3>You are in control of your data</h3>
+            <p>We and our partners use technologies, including cookies, to collect information about you for various purposes, including: personalizing content and ads, analyzing our traffic, and providing website functionality.</p>
+            <p>By clicking “Accept”, you give your consent to all purposes. You can also choose which purposes you consent to by checking the boxes next to each purpose and then clicking “Save selected settings”.</p>
+            <p>You can withdraw your consent at any time by clicking the small icon in the bottom left corner of the page.</p>
+            <p><a href="#">Read more here</a> about how we use cookies and other technical solutions, and how we collect and process personal data.</p>
+        </div>
+        <form id="cookieConsentForm" class="cookie-settings">
+            <h4>Cookies</h4>
+
+            <div class="options">
+                <div class="option">
+                    <label class="switch-label" for="cookieEssential">
+                        <i class="fa-solid fa-chevron-down"></i>
+                        Necessary (always active)
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="cookieEssential" name="essential" checked disabled />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <label class="switch-label" for="cookiePreferences">
+                        <i class="fa-solid fa-chevron-down"></i>
+                        Preferences (e.g., language settings)
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="cookiePreferences" name="preferences" />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <label class="switch-label" for="cookieStatistics">
+                        <i class="fa-solid fa-chevron-down"></i>
+                        Statistics (site usage & performance)
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="cookieStatistics" name="statistics" />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <label class="switch-label" for="cookieMarketing">
+                        <i class="fa-solid fa-chevron-down"></i>
+                        Marketing (personalized ads & tracking)
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="cookieMarketing" name="marketing" />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <button type="button" class="btn btn-success btn-sm" onclick="acceptAllCookies()">Accept all</button>
+                <button type="button" class="btn btn-secondary btn-sm me-2" onclick="saveSelectedCookies()">Save selected settings</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="cookieConsentIcon" onclick="openCookieConsentBanner()">
+    <i class="fa-solid fa-cookie-bite"></i>
+</div>

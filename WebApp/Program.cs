@@ -26,6 +26,13 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.SlidingExpiration = true;
 });
 
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => !context.Request.Cookies.ContainsKey("cookieConsent");
+    options.MinimumSameSitePolicy = SameSiteMode.Lax;
+});
+
+
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
@@ -41,6 +48,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapStaticAssets();
