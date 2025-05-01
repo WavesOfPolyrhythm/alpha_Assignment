@@ -50,6 +50,33 @@
         })
     })
 
+    document.querySelectorAll('.image-preview-container').forEach(container => {
+        const fileInput = container.parentElement.querySelector('input[type="file"]');
+        const imagePreview = container.querySelector('#image-preview');
+        const imagePreviewIcon = container.querySelector('#image-preview-icon');
+        const imagePreviewIconContainer = container.querySelector('#image-preview-icon-container');
+
+        container.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hide');
+                    imagePreview.classList.add('selected');
+                    imagePreviewIconContainer.classList.add('selected');
+                    imagePreviewIcon.className = 'fa-solid fa-pen-to-square';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+
+
     //Handle submit form
     const forms = document.querySelectorAll('._form-modal')
     forms.forEach(form => {

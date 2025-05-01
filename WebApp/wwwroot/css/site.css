@@ -761,23 +761,57 @@ font-size: 1.25rem;
         margin-bottom: 1rem;
     }
 
-    ._modal-content ._modal-img {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+.image-preview-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    border: 2px dashed var(--border-color);
+    margin: auto;
+    cursor: pointer;
+}
+
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+    .circle.circle-gray {
+        color: var(--btn-gray-text-color);
+        border: 1px solid var(--btn-gray-border-color);
+        background-color: var(--btn-gray-background-color);
     }
 
-        ._modal-content ._modal-img img {
-            width: 8rem;
-            margin-bottom: 1rem;
-        }
 
-    ._modal-content ._form-modal {
-        display: flex;
-        flex-direction: column;
-        min-width: 400px;
-        max-width: 520px;
+    .circle.selected {
+        bottom: -1%;
+        background-color: #5e4b8b;
+        color: var(--background-color);
+        border: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
+
+#image-upload {
+    display: none;
+}
+
+._modal-content ._form-modal {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    max-width: 520px;
+}
 
         ._modal-content ._form-modal .btn-custom {
             margin-top: 1rem;

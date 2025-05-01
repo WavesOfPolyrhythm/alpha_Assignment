@@ -6,10 +6,18 @@
                 <h3 id="modalTitle">Add Project</h3>
                 <button class="btn-close" data-close="true"></button>
             </div>
-            <div class="_modal-img">
-                <img src="/images/dev-icon1.svg" alt="Project Icon" />
-            </div>
-            <form method="post" asp-controller="Admin" asp-action="AddProject" class="_form-modal space-y-1" novalidate>
+            <form method="post" asp-controller="Admin" asp-action="AddProject" enctype="multipart/form-data" class="_form-modal space-y-1" novalidate>
+                <div class="input-group">
+                    <div id="upload-trigger" class="image-preview-container project-image">
+                        <img id="image-preview" src="#" class="hide" />
+                        <div id="image-preview-icon-container" class="circle circle-gray">
+                            <i id="image-preview-icon" class="fa-duotone fa-solid fa-camera"></i>
+                        </div>
+                    </div>
+
+                    <input type="file" asp-for="Image" id="image-upload" accept="image/*" />
+                    <span asp-validation-for="Image"></span>
+                </div>
                 <div class="input-group">
                     <label asp-for="ProjectName" class="form-label">Project Name</label>
                     <input type="text" asp-for="ProjectName"  class="form-input">

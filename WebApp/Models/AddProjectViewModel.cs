@@ -35,4 +35,7 @@ public class AddProjectViewModel
     [Range(0, double.MaxValue, ErrorMessage = "Budget must be a positive number")]
     [Display(Name = "Budget", Prompt = "Budget")]
     public decimal? Budget {  get; set; }
+
+    [Display(Name = "Project Image")]
+    public IFormFile? Image { get; set; }
 }

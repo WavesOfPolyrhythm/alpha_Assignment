@@ -16,6 +16,7 @@ builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
     x.User.RequireUniqueEmail = true;
     x.Password.RequiredLength = 8;
 }).AddEntityFrameworkStores<AlphaDbContext>().AddDefaultTokenProviders();
+
 builder.Services.ConfigureApplicationCookie(x =>
 {
     x.LoginPath = "/account/login";

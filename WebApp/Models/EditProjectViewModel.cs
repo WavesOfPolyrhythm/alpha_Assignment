@@ -35,6 +35,9 @@ public class EditProjectViewModel
     [Display(Name = "Budget", Prompt = "Budget")]
     public decimal? Budget { get; set; }
 
+    [Display(Name = "Project Image")]
+    public IFormFile? Image { get; set; }
+
     [Required(ErrorMessage = "You must select a status")]
     [Display(Name = "Status")]
     public string StatusId { get; set; } = null!;
