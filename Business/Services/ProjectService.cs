@@ -37,6 +37,7 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
             Budget = formData.Budget,
             ClientId = formData.ClientId,
             UserId = formData.UserId,
+            Image = formData.Image,
             StatusId = "1",
         };
 

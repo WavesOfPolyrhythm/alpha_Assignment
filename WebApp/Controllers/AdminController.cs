@@ -5,16 +5,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
+using WebApp.Handlers;
 using WebApp.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace WebApp.Controllers;
 
 [Authorize]
-public class AdminController(IProjectService projectService, IClientService clientService, IStatusService statusService) : Controller
+public class AdminController(IProjectService projectService, IClientService clientService, IStatusService statusService, IFileHandler fileHandler) : Controller
 {
     private readonly IProjectService _projectService = projectService;
     private readonly IClientService _clientService = clientService;
     private readonly IStatusService _statusService = statusService;
+    private readonly IFileHandler _fileHandler = fileHandler;
 
     // Projects Count was made with help from ChatGPT.
     // It calculates the total number of projects, as well as the number of started and completed projects.
@@ -72,6 +74,13 @@ public class AdminController(IProjectService projectService, IClientService clie
 
         var formData = model.MapTo<AddProjectFormData>();
         formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        if (model.Image != null && model.Image.Length > 0)
+        {
+            var imageUri = await _fileHandler.UploadAsync(model.Image);
+            formData.Image = imageUri;
+        }
+
         var result = await _projectService.CreateProjectAsync(formData);
         if (result.Succeeded)
         {
@@ -159,7 +168,7 @@ public class AdminController(IProjectService projectService, IClientService clie
         if (list == null)
             return [];
 
-       var clients = list.Select(c => new SelectListItem
+        var clients = list.Select(c => new SelectListItem
         {
             Value = c.Id,
             Text = c.ClientName
