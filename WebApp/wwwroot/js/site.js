@@ -152,7 +152,22 @@
                     errorInputs.forEach(input => {
                         input.classList.remove('input-validation-error')
                     })
-                    
+
+                    const imagePreview = modal.querySelector('#image-preview');
+                    const imagePreviewIcon = modal.querySelector('#image-preview-icon');
+                    const imagePreviewIconContainer = modal.querySelector('#image-preview-icon-container');
+
+                    if (imagePreview) {
+                        imagePreview.src = '#';
+                        imagePreview.classList.add('hide');
+                        imagePreview.classList.remove('selected');
+                    }
+                    if (imagePreviewIcon) {
+                        imagePreviewIcon.className = 'fa-duotone fa-solid fa-camera';
+                    }
+                    if (imagePreviewIconContainer) {
+                        imagePreviewIconContainer.classList.remove('selected');
+                    }
                 })
             }
         })

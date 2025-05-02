@@ -7,6 +7,8 @@ public class ProjectViewModel
     public string Company { get; set; } = null!;
     public string? Description { get; set; } = null!;
 
+    public string? Image {  get; set; }
+
     public string ClientName { get; set; } = null!;
     public string Status { get; set; } = null!;
 }

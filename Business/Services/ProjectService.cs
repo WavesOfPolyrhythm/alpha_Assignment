@@ -94,6 +94,7 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
         existingEntity.ProjectName = string.IsNullOrWhiteSpace(formData.ProjectName) ? existingEntity.ProjectName : formData.ProjectName;
         existingEntity.Description = string.IsNullOrWhiteSpace(formData.Description) ? existingEntity.Description : formData.Description;
         existingEntity.StartDate = formData.StartDate ?? existingEntity.StartDate;
+        existingEntity.Image = formData.Image ?? existingEntity.Image;
         existingEntity.EndDate = formData.EndDate ?? existingEntity.EndDate;
         existingEntity.Budget = formData.Budget ?? existingEntity.Budget;
         existingEntity.ClientId = formData.ClientId;

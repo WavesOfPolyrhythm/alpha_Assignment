@@ -111,6 +111,13 @@ public class AdminController(IProjectService projectService, IClientService clie
 
         var formData = model.MapTo<EditProjectFormData>();
         formData.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        if (model.Image != null && model.Image.Length > 0)
+        {
+            var imageUri = await _fileHandler.UploadAsync(model.Image);
+            formData.Image = imageUri;
+        }
+
         var result = await _projectService.UpdateProjectAsync(formData);
         if (result.Succeeded)
         {
@@ -150,6 +157,7 @@ public class AdminController(IProjectService projectService, IClientService clie
             return result.Result.Select(p => new ProjectViewModel
             {
                 Id = p.Id,
+                Image = p.Image,
                 ProjectName = p.ProjectName,
                 Description = p.Description,
                 Company = p.Client.ClientName,

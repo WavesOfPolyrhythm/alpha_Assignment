@@ -4,7 +4,10 @@
         <div class="card-flex">
             <div class="card-left">
                 <div class="card-icon">
-                    <img src="~/images/dev-icon1.svg" alt="Project Icon" />
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="@Model.Image" alt="Project Icon" />
+                    }
                 </div>
                 <div class="card-headers">
                     <h5>@Model.ProjectName</h5>
