@@ -883,9 +883,12 @@ font-size: 1.25rem;
     align-items: center;
     justify-content: center;
     z-index: 9998;
+    min-width: 900px;
 }
 
     #cookieModal .cookie-card {
+        min-width: 950px;
+        max-width: 1000px;
         width: 50%;
         display: grid;
         grid-template-columns: 5fr 3fr;
@@ -924,20 +927,16 @@ font-size: 1.25rem;
 
     .cookie-settings .buttons {
         display: grid;
-        gap: 1rem;
-        margin-top: 1rem;
     }
 
     .cookie-settings .options {
         display: grid;
-        gap: 1.5rem;
     }
 
         .cookie-settings .options .option {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
             cursor: pointer;
             font-weight: 400;
             font-size: 1.1em;
@@ -1038,7 +1037,7 @@ input:checked + .slider {
 }
 
     input:checked + .slider:before {
-        transform: translateX(15px);
+        transform: translateX(27px);
     }
 
 

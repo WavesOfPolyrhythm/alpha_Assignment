@@ -200,33 +200,33 @@
     // and shows only the project cards that match the selected status.
     // If "All" is selected, all project cards are displayed.
 
-        const tabLinks = document.querySelectorAll('.tab-link');
-        const projectCards = document.querySelectorAll('.project-card');
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const projectCards = document.querySelectorAll('.project-card');
 
-        tabLinks.forEach(tab => {
-            tab.addEventListener('click', function (e) {
-                e.preventDefault();
+    tabLinks.forEach(tab => {
+        tab.addEventListener('click', function (e) {
+            e.preventDefault();
 
-                tabLinks.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
+            tabLinks.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
 
-                const filter = tab.getAttribute('data-filter').toLowerCase();
+            const filter = tab.getAttribute('data-filter').toLowerCase();
 
-                projectCards.forEach(card => {
-                    const status = card.getAttribute('data-status').toLowerCase();
+            projectCards.forEach(card => {
+                const status = card.getAttribute('data-status').toLowerCase();
 
-                    if (filter === 'all') {
-                        card.style.display = 'flex';
-                    }
-                    else if (filter === status) {
-                        card.style.display = 'flex';
-                    }
-                    else {
-                        card.style.display = 'none';
-                    }
-                });
+                if (filter === 'all') {
+                    card.style.display = 'flex';
+                }
+                else if (filter === status) {
+                    card.style.display = 'flex';
+                }
+                else {
+                    card.style.display = 'none';
+                }
             });
         });
+    });
 
 
     //open and close settings
