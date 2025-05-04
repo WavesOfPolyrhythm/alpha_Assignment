@@ -1,7 +1,17 @@
 ﻿<nav class="nav-links">
 
     <a class="nav-link @(Context.Request.Path == "/" ? "active": "")" asp-controller="Admin" asp-action="Index">
-    <i class="fa-duotone fa-solid fa-briefcase"></i>
-    <span>Projects</span>
+        <i class="fa-duotone fa-solid fa-briefcase"></i>
+        <span>Projects</span>
     </a>
+</nav>
+
+<nav class="nav-links">
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="nav-link @(Context.Request.Path == "/" ? "active": "")" asp-controller="Users" asp-action="Index">
+            <i class="fa-solid fa-users"></i>
+            <span>User Manager</span>
+        </a>
+    }
 </nav>

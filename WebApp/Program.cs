@@ -57,6 +57,34 @@ app.UseRouting();
 app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roleNames = { "Admin", "User" };
+
+    foreach (var roleName in roleNames)
+    {
+        var roleExists = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExists)
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
+    var user = new UserEntity { UserName = "admin@domain.com", Email = "admin@domain.com" };
+
+    var userExists = await userManager.Users.AnyAsync(x => x.Email == user.Email);
+    if (!userExists)
+    {
+        var result = await userManager.CreateAsync(user, "Bytmig123!");
+        if (result.Succeeded)
+            await userManager.AddToRoleAsync(user, "Admin");
+    }
+}
+
+
 app.MapStaticAssets();
 app.MapControllerRoute(
     name: "default",

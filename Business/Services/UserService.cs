@@ -8,11 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 namespace Business.Services;
 
+/// <summary>
+/// UpdateUserRole, This method was partly created with help from ChatGPT.
+/// Updates a user's role by first checking that the user exists and the new role is valid.
+/// Then it removes any current roles from the user and assigns the new selected role (Admin or User).
+/// Returns a result indicating success or failure.
+/// </summary>
+
+
 public interface IUserService
 {
     Task<UserResult> GetUsersAsync();
     Task<UserResult> AddUserToRole(string userId, string roleName);
     Task<UserResult> CreateUserAsync(SignUpFormData formData, string roleName = "User");
+    Task<UserResult> UpdateUserRoleAsync(string userId, string newRole);
 }
 
 public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager) : IUserService
@@ -74,4 +83,27 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
             return new UserResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
         }
     }
+
+    public async Task<UserResult> UpdateUserRoleAsync(string userId, string newRole)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            return new UserResult { Succeeded = false, StatusCode = 404, Error = "User not found." };
+
+        if (!await _roleManager.RoleExistsAsync(newRole))
+            return new UserResult { Succeeded = false, StatusCode = 400, Error = "Role does not exist." };
+
+        var currentRoles = await _userManager.GetRolesAsync(user);
+        var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+        if (!removeResult.Succeeded)
+            return new UserResult { Succeeded = false, StatusCode = 500, Error = "Failed to remove existing roles." };
+
+        var addResult = await _userManager.AddToRoleAsync(user, newRole);
+        if (!addResult.Succeeded)
+            return new UserResult { Succeeded = false, StatusCode = 500, Error = "Failed to assign new role." };
+
+        return new UserResult { Succeeded = true, StatusCode = 200 };
+    }
+
 }

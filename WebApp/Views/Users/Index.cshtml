@@ -1,0 +1,42 @@
+﻿@model UserRoleViewModel
+@{
+    Layout = "_Layout_Portal";
+    ViewData["Title"] = "User Manager";
+}
+
+<div class="center-screen">
+    <div class="surface">
+        <div class="form-group">
+            <form asp-action="Index" asp-controller="Users" method="post" class="reg-form space-y-1" novalidate>
+                <div class="form-heading">
+                    <h1>User Manager</h1>
+                </div>
+
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+
+                <div class="input-group">
+                    <label asp-for="UserId" class="form-label"></label>
+                    <select asp-for="UserId" asp-items="Model.Users" class="form-input">
+                        <option value="">Choose user...</option>
+                    </select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="Role" class="form-label"></label>
+                    <select asp-for="Role" asp-items="Model.Roles" class="form-input">
+                        <option value="">Choose authorisation...</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="_btn-custom _btn-blue">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

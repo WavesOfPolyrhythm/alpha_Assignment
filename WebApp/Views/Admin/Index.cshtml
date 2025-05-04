@@ -30,8 +30,12 @@
     </div>
 </main>
 
-@await Html.PartialAsync("Partials/Modals/_AddProjectModalPartial", Model.AddProjectFormData)
-@await Html.PartialAsync("Partials/Modals/_EditProjectModalPartial", Model.EditProjectFormData)
+
+@if (User.IsInRole("Admin"))
+{
+    @await Html.PartialAsync("Partials/Modals/_AddProjectModalPartial", Model.AddProjectFormData)
+    @await Html.PartialAsync("Partials/Modals/_EditProjectModalPartial", Model.EditProjectFormData)
+}
 
 
 @* Help from CHAT-GPT To keep modal open if Model State is not Valid *@
