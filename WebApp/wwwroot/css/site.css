@@ -709,6 +709,13 @@ font-size: 1.25rem;
     color: firebrick;
 }
 
+.role-page {
+    padding: 8rem;
+}
+
+._btn-save {
+    margin-top: 4rem;
+}
 
 
 

@@ -39,7 +39,7 @@ public class UsersController(UserManager<UserEntity> userManager, RoleManager<Id
             return View(await SetUserRoleViewModelAsync(model));
         }
 
-        ViewBag.Message = "Role assigned successfully!";
+        TempData["SuccessMessage"] = "Role assigned successfully!";
         return RedirectToAction("Index");
     }
 

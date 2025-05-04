@@ -5,7 +5,7 @@
 }
 
 <div class="center-screen">
-    <div class="surface">
+    <div class="surface role-page">
         <div class="form-group">
             <form asp-action="Index" asp-controller="Users" method="post" class="reg-form space-y-1" novalidate>
                 <div class="form-heading">
@@ -16,6 +16,13 @@
                 {
                     <div class="alert alert-danger">
                         @ViewBag.ErrorMessage
+                    </div>
+                }
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @TempData["SuccessMessage"]
                     </div>
                 }
 
@@ -35,7 +42,7 @@
                     <span asp-validation-for="Role" class="text-danger"></span>
                 </div>
 
-                <button type="submit" class="_btn-custom _btn-blue">Save</button>
+                <button type="submit" class="_btn-custom _btn-blue _btn-save">Save</button>
             </form>
         </div>
     </div>
